@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 MISSION CONTROL | OPS CENTER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --f1-red: #e10600;
+            --carbon-core: #050505;
+            --panel-bg: #101117;
+            --cyan-telemetry: #00d2be;
+            --warning-amber: #ff9800;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--carbon-core);
+            background-image: 
+                linear-gradient(rgba(225, 6, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(225, 6, 0, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: #e6e6e6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Header Area */
+        .mission-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid var(--f1-red);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 5px;
+            color: white;
+        }
+
+        .live-status {
+            color: var(--cyan-telemetry);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsive Grid Paddock */
+        .paddock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .ops-panel {
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            padding: 30px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Slanted "Racing" Corner */
+        .ops-panel::after {
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            border-style: solid;
+            border-width: 0 40px 40px 0;
+            border-color: transparent var(--f1-red) transparent transparent;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--f1-red);
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            box-sizing: border-box;
+            background: #1a1a24;
+            border: 1px solid #334155;
+            color: var(--cyan-telemetry);
+            padding: 15px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* High-Performance Action Button */
+        .btn-deploy {
+            width: 100%;
+            background: var(--f1-red);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-deploy:hover {
+            background: white;
+            color: var(--f1-red);
+            transform: scale(1.02);
+        }
+
+        /* Video Replay Station */
+        .replay-station {
+            grid-column: 1 / -1;
+            background: #000;
+            border: 2px solid var(--f1-red);
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Telemetry Log */
+        .telemetry-log {
+            grid-column: 1 / -1;
+            background: rgba(0, 210, 190, 0.05);
+            border-left: 5px solid var(--cyan-telemetry);
+            padding: 20px;
+            font-family: monospace;
+            color: var(--cyan-telemetry);
+        }
+
+        .pit-wall-link {
+            margin-top: 50px;
+            color: #64748b;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .pit-wall-link:hover { color: var(--f1-red); }
+
+    </style>
+</head>
+<body>
+
+<div class="mission-header">
+    <div>
+        <span class="live-status">● SYSTEM ACTIVE</span>
+        <h1>MISSION CONTROL</h1>
+    </div>
+    <div style="text-align: right; opacity: 0.5;">
+        SECURE DATA UPLINK // V.2025
+    </div>
+</div>
+
+<div class="paddock-grid">
+    <div class="ops-panel">
+        <h2>⚡ SYSTEM_IGNITION (PATH)</h2>
+        <form action="/pipeline/run" method="post">
+            <input type="text" name="video_path" value="tracker/tracker2.mp4" required>
+            <button type="submit" class="btn-deploy">Launch Pipeline</button>
+        </form>
+    </div>
+
+    <div class="ops-panel">
+        <h2>📡 DATA_TRANSMISSION (UPLOAD)</h2>
+        <form action="/pipeline/video" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="video/*" required>
+            <button type="submit" class="btn-deploy">Process Stream</button>
+        </form>
+    </div>
+
+    {% if video_path %}
+    <div class="replay-station">
+        <h2 style="margin: 10px; color: white;">>> TELEMETRY_FEED_REPLAY</h2>
+        <video controls>
+            <source src="{{ video_path }}" type="video/mp4">
+        </video>
+    </div>
+    {% endif %}
+
+    {% if summary %}
+    <div class="telemetry-log">
+        <h2 style="color: var(--cyan-telemetry); margin-bottom: 10px;">📊 ENGINEERING_LOG_OUTPUT</h2>
+        <pre style="white-space: pre-wrap; margin: 0;">{{ summary }}</pre>
+    </div>
+    {% endif %}
+</div>
+
+<a href="/" class="pit-wall-link">❮ Return to Pit Wall</a>
+
+</body>
+</html>

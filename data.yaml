@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 1
+names: ['f1_car']
+
+roboflow:
+  workspace: mohammed-wnwus
+  project: my-first-project-miyqz
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/mohammed-wnwus/my-first-project-miyqz/dataset/3

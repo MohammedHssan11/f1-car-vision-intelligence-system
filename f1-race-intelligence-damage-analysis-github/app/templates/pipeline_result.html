@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEBRIEF | Race Analysis Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --f1-red: #e10600;
+            --f1-black: #0b0b0f;
+            --mercedes-cyan: #00d2be;
+            --warning-gold: #ffb800;
+            --carbon-fiber: #15151e;
+        }
+
+        body {
+            background-color: var(--f1-black);
+            background-image: linear-gradient(45deg, #0f0f14 25%, transparent 25%, transparent 50%, #0f0f14 50%, #0f0f14 75%, transparent 75%, transparent);
+            background-size: 100px 100px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header-banner {
+            border-left: 8px solid var(--f1-red);
+            display: inline-block;
+            padding: 0 30px;
+            margin-bottom: 50px;
+            text-align: left;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: var(--f1-red);
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        /* The Telemetry Grid */
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto 40px;
+        }
+
+        .stat-card {
+            background: var(--carbon-fiber);
+            padding: 20px;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Diagonal Accent Stripe */
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--accent-color, var(--f1-red));
+        }
+
+        .stat-card strong {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .stat-card span {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--accent-color, var(--f1-red));
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* Video Replay Theater */
+        .video-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #000;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        .video-label {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: var(--f1-red);
+            padding: 2px 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            border: 1px solid #222;
+        }
+
+        .action-footer {
+            margin-top: 60px;
+        }
+
+        .btn-back {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            padding: 12px 30px;
+            border: 1px solid var(--f1-red);
+            transition: 0.3s;
+            display: inline-block;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .btn-back:hover {
+            background: var(--f1-red);
+            box-shadow: 0 0 20px rgba(225, 6, 0, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <div class="timestamp">DATA RECOVERY COMPLETE // SECTION 1A</div>
+        <h1>POST-RACE DEBRIEF</h1>
+    </div>
+    
+    <div class="report-grid">
+        <div class="stat-card" style="--accent-color: #fff;">
+            <strong>OBJECTS TRACKED</strong>
+            <span>{{ summary.cars_tracked }}</span>
+        </div>
+
+        <div class="stat-card" style="--accent-color: var(--warning-gold);">
+            <strong>INCIDENTS (CRASH)</strong>
+            <span>{{ summary.total_collisions }}</span>
+        </div>
+
+        <div class="stat-card" style="--accent-color: var(--mercedes-cyan);">
+            <strong>MANEUVERS (OVERTAKE)</strong>
+            <span style="color: var(--mercedes-cyan);">{{ summary.total_overtakes }}</span>
+        </div>
+    </div>
+
+    <div class="video-container">
+        <div class="video-label">SESSION REPLAY_MODE</div>
+        <video controls>
+            <source src="/{{ summary.output_video }}" type="video/mp4">
+            Uplink failed. Local video driver not supported.
+        </video>
+    </div>
+
+    <div class="action-footer">
+        <a href="/page/pipeline" class="btn-back">RE-INITIALIZE PIPELINE</a>
+    </div>
+
+</body>
+</html>

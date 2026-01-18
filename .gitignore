@@ -1,0 +1,50 @@
+# ========================
+# Virtual Environment
+# ========================
+venv/
+
+# ========================
+# Python Cache
+# ========================
+__pycache__/
+*.pyc
+*.pyo
+
+# ========================
+# Datasets (DO NOT PUSH)
+# ========================
+data/
+datasets/
+*/datasets/
+yolo*/
+roboflow*/
+Formula*/
+
+# ========================
+# Model Weights
+# ========================
+*.pt
+*.pth
+*.pkl
+*.onnx
+
+# ========================
+# Outputs / Uploads
+# ========================
+outputs/
+uploads/
+runs/
+results/
+
+# ========================
+# Logs
+# ========================
+*.log
+
+# ========================
+# OS / Editor
+# ========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

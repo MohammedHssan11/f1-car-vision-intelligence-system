@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 OPS CENTER | GRID INTELLIGENCE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --f1-red: #e10600;
+            --carbon-black: #050505;
+            --neon-blue: #00f2ff;
+            --glass: rgba(15, 15, 20, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--carbon-black);
+            /* Technical Grid Background */
+            background-image: 
+                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: #f1f5f9;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Large Background Texture */
+        .bg-text {
+            position: absolute;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 25vw;
+            font-weight: 900;
+            color: rgba(225, 6, 0, 0.03);
+            z-index: -1;
+            white-space: nowrap;
+            user-select: none;
+            transform: skewY(-5deg);
+        }
+
+        .paddock-container {
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+            position: relative;
+        }
+
+        /* Top Status Bar */
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            color: var(--neon-blue);
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--neon-blue);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 0.9;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 900;
+            font-style: italic;
+            background: linear-gradient(to bottom, #fff 50%, #666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            border-left: 3px solid var(--f1-red);
+            padding-left: 15px;
+        }
+
+        /* Navigation Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 40px 30px;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            /* Sharp Slant Look */
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .card:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--neon-blue);
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin: 0 0 10px 0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p {
+            font-weight: 300;
+            color: #94a3b8;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .card .icon-label {
+            font-size: 0.7rem;
+            color: var(--f1-red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Speed Lines Detail */
+        .speed-line {
+            position: absolute;
+            height: 2px;
+            background: var(--f1-red);
+            bottom: 0;
+            left: 0;
+            width: 0;
+            transition: 0.4s;
+        }
+
+        .card:hover .speed-line {
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="bg-text">RACING</div>
+
+    <div class="paddock-container">
+        <div class="status-header">
+            <span class="status-light"></span>
+            LIVE TELEMETRY STREAM ACTIVE
+        </div>
+        
+        <h1>VISION CONTROL<br><span style="color: var(--f1-red); -webkit-text-fill-color: var(--f1-red);">OPS CENTER</span></h1>
+        
+        <p class="hero-desc">High-Velocity Neural Analytics & Structural AI</p>
+        
+        <div class="grid">
+            <a href="/page/damage" class="card">
+                <span class="icon-label">Structural Analysis</span>
+                <h3>SCAN CHASSIS</h3>
+                <p>Detect micro-fractures and aero-damage via high-res uplink.</p>
+                <div class="speed-line"></div>
+            </a>
+            
+            <a href="/page/pipeline" class="card">
+                <span class="icon-label">Live Telemetry</span>
+                <h3>TRACKER OPS</h3>
+                <p>Neural tracking of overtakes, apex speeds, and collisions.</p>
+                <div class="speed-line"></div>
+            </a>
+        </div>
+
+        <div style="margin-top: 60px; font-size: 0.7rem; color: #475569; letter-spacing: 1px;">
+            DESIGNED FOR THE PINNACLE OF MOTORSPORT | v4.0.2-STABLE
+        </div>
+    </div>
+</body>
+</html>

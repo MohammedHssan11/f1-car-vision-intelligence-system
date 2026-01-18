@@ -1,0 +1,58 @@
+import os
+import json
+from tqdm import tqdm
+
+def convert(size, box):
+    dw = 1. / size[0]
+    dh = 1. / size[1]
+    x = (box[0] + box[2] / 2.0) * dw
+    y = (box[1] + box[3] / 2.0) * dh
+    w = box[2] * dw
+    h = box[3] * dh
+    return x, y, w, h
+
+
+def coco_to_yolo(coco_json, images_dir, labels_dir):
+    os.makedirs(labels_dir, exist_ok=True)
+    data = json.load(open(coco_json))
+
+    image_dict = {img['id']: img for img in data['images']}
+    annotations = data['annotations']
+
+    for ann in tqdm(annotations, desc="Converting"):
+        img = image_dict[ann['image_id']]
+        img_name = img['file_name']
+        width, height = img['width'], img['height']
+
+        bbox = ann['bbox']
+        bbox_yolo = convert((width, height), bbox)
+
+        label_path = os.path.join(labels_dir, img_name.replace('.jpg', '.txt'))
+        with open(label_path, "a") as f:
+            f.write(f"{ann['category_id']} {' '.join([str(a) for a in bbox_yolo])}\n")
+
+
+if __name__ == "__main__":
+    root = r"C:\TERM 7\computer vision\final project\data\CarDD_release\CarDD_COCO"
+    yolo_root = r"C:\TERM 7\computer vision\final project\data\CarDD_YOLO"
+
+    # Train
+    coco_to_yolo(
+        f"{root}/annotations/instances_train2017.json",
+        f"{root}/train2017",
+        f"{yolo_root}/labels/train"
+    )
+
+    # Val
+    coco_to_yolo(
+        f"{root}/annotations/instances_val2017.json",
+        f"{root}/val2017",
+        f"{yolo_root}/labels/val"
+    )
+
+    # Test
+    coco_to_yolo(
+        f"{root}/annotations/instances_test2017.json",
+        f"{root}/test2017",
+        f"{yolo_root}/labels/test"
+    )

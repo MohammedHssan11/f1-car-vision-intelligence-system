@@ -1,0 +1,19 @@
+python>=3.10
+torch>=2.0
+torchvision
+opencv-python
+numpy
+pandas
+scipy
+pyyaml
+ultralytics>=8.0
+filterpy
+scikit-learn
+matplotlib
+detectron2 # install via official instructions
+timm
+albumentations
+pillow
+faiss-cpu # optional for ReID
+
+useful link https://github.com/SwamiKannan/Formula1-car-detection-using-Yolov5/tree/main/data_generation/download contain videos    

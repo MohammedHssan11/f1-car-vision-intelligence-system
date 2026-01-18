@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TELEMETRY | Damage Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --f1-red: #e10600;
+            --carbon: #0b0e14;
+            --neon-blue: #00f2ff;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            background-color: var(--carbon);
+            /* Subtle carbon fiber pattern */
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Racing Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-left: 5px solid var(--f1-red);
+            padding-left: 20px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .sub-header {
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Main HUD Box */
+        .inspection-container {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 5px; /* Boxy, aggressive look */
+            width: 90%;
+            max-width: 700px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* HUD Corner Accents */
+        .inspection-container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 20px; height: 20px;
+            border-top: 2px solid var(--f1-red);
+            border-left: 2px solid var(--f1-red);
+        }
+
+        /* File Upload Styling */
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 40px 20px;
+            transition: 0.3s;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--neon-blue);
+            background: rgba(0, 242, 255, 0.05);
+        }
+
+        input[type="file"] {
+            font-family: 'Inter', sans-serif;
+            color: #94a3b8;
+        }
+
+        /* High Performance Button */
+        button {
+            background: var(--f1-red);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 18px 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); /* Angled "speed" shape */
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button:hover {
+            background: #ff0800;
+            transform: skewX(-5deg) scale(1.05);
+            box-shadow: -10px 0 20px rgba(225, 6, 0, 0.4);
+        }
+
+        /* Result Area */
+        .result-img {
+            margin-top: 30px;
+            max-width: 100%;
+            border: 1px solid var(--neon-blue);
+            border-radius: 4px;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.2));
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            background: #22c55e;
+            color: black;
+            padding: 5px 15px;
+            font-weight: bold;
+            font-size: 0.7rem;
+            margin-bottom: 10px;
+            clip-path: polygon(0 0, 90% 0, 100% 100%, 10% 100%);
+        }
+
+        .return-link {
+            color: #64748b;
+            text-decoration: none;
+            margin-top: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .return-link:hover {
+            color: var(--f1-red);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="sub-header">Aero-Analysis System v2.4</div>
+        <h1>Chassis Scan</h1>
+    </header>
+
+    <div class="inspection-container">
+        <form action="/damage/image" method="post" enctype="multipart/form-data" style="text-align: center;">
+            <div class="upload-zone">
+                <p style="margin-top: 0; color: #64748b; font-size: 0.9rem;">UPLOAD COMPONENT VISUALS</p>
+                <input type="file" name="file" accept="image/*" required>
+            </div>
+            
+            <button type="submit">Deploy Scanner</button>
+        </form>
+
+        {% if result_image %}
+            <div style="margin-top: 50px; text-align: center;">
+                <div class="status-badge">ANALYSIS COMPLETE</div>
+                <img src="{{ result_image }}" class="result-img" alt="Damage Detection Feed">
+                <p style="font-family: 'Orbitron'; font-size: 0.8rem; color: var(--neon-blue); margin-top: 15px;">
+                    // ANOMALIES HIGHLIGHTED IN RED
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+    <a href="/" class="return-link"> ❮ Return to Pit Lane</a>
+
+</body>
+</html>
