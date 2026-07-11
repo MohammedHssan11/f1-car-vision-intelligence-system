@@ -9,18 +9,35 @@ from src.model_loader import get_damage_model
 # =============================
 BASE_CONF = 0.45
 
-# Vertical zones
-TIRE_MIN_Y = 0.75
-GLASS_MAX_Y = 0.55
+# Vertical zones (fraction of image height)
+TIRE_MIN_Y = 0.75               # tires sit low in the frame
+GLASS_MAX_Y = 0.55              # glass sits high (cockpit / windscreen)
 
-# Area thresholds
+# Area thresholds (fraction of image area)
 MIN_BOX_HEIGHT = 0.03
 MAX_TIRE_AREA = 0.15
 GLASS_MISSING_SINGLE = 0.12     # one big hole
 GLASS_MISSING_TOTAL = 0.18      # aggregated damage
 
 # Confidence
-MIN_GLASS_CONF = 0.70
+MIN_GLASS_CONF = 0.70           # below this a raw "glass_shatter" is downgraded
+
+# Per-class confidence floors, applied to the FINAL (post-reclassification)
+# class so no class is silently trusted. Classes with a geometric prior
+# (tire/glass) keep the base bar; the geometrically-unconstrained and noisier
+# CarDD classes (deformation, other_damage, lamp_broken) are held higher, since
+# they are the ones that fire on non-damage such as helmets or liveries.
+MIN_CONF_BY_CLASS = {
+    "tire_flat": 0.45,
+    "glass_shatter": 0.55,
+    "glass_missing": 0.55,
+    "dent": 0.55,
+    "scratch": 0.55,
+    "lamp_broken": 0.55,
+    "deformation": 0.60,
+    "other_damage": 0.60,
+}
+DEFAULT_MIN_CONF = 0.55
 
 
 # =============================
@@ -32,47 +49,53 @@ def validate_damage_class(
     x1, y1, x2, y2,
     img_h, img_w
 ):
+    """Validate/relabel one raw damage detection; return the accepted class or None.
+
+    Covers all 7 CarDD classes:
+      * ``tire_flat`` / ``glass_shatter`` get geometric reclassification (tires
+        must sit low; oversized "tires" are mislabeled glass; low-confidence or
+        low-placed glass is downgraded to a scratch/missing panel).
+      * ``dent``, ``scratch``, ``lamp_broken``, ``deformation`` and
+        ``other_damage`` have no geometric prior, so they rely on the per-class
+        confidence floor below.
+    Every final class is confidence-gated via ``MIN_CONF_BY_CLASS``, so a class
+    is never passed through untouched the way ``deformation``/``other_damage``
+    previously were.
+    """
     box_center_y = (y1 + y2) / 2
     box_height = y2 - y1
     box_area = (x2 - x1) * (y2 - y1)
-    img_area = img_h * img_w
+    img_area = (img_h * img_w) or 1
     area_ratio = box_area / img_area
 
-    # 1️⃣ Noise
+    # 1) Noise: too-small boxes are dropped regardless of class.
     if box_height < img_h * MIN_BOX_HEIGHT:
         return None
 
-    # 2️⃣ Tire
+    # 2) Determine the candidate class, with geometric reclassification.
     if raw_class == "tire_flat":
         if box_center_y < img_h * TIRE_MIN_Y:
-            return None
-        if area_ratio > MAX_TIRE_AREA:
-            return "glass_shatter"
-        return "tire_flat"
+            return None                                  # too high to be a tire
+        candidate = "glass_shatter" if area_ratio > MAX_TIRE_AREA else "tire_flat"
 
-    # 3️⃣ Glass logic
-    if raw_class == "glass_shatter":
+    elif raw_class == "glass_shatter":
+        if area_ratio > GLASS_MISSING_SINGLE and box_center_y < img_h * 0.5:
+            candidate = "glass_missing"                  # single large hole
+        elif confidence < MIN_GLASS_CONF or box_center_y > img_h * GLASS_MAX_Y:
+            candidate = "scratch"                        # weak / low-placed glass
+        else:
+            candidate = "glass_shatter"
 
-        # Single massive hole
-        if (
-            area_ratio > GLASS_MISSING_SINGLE and
-            box_center_y < img_h * 0.5
-        ):
-            return "glass_missing"
+    else:
+        # dent, scratch, lamp_broken, deformation, other_damage (and any
+        # unforeseen class): no geometric prior, keep as-is for the conf gate.
+        candidate = raw_class
 
-        if confidence < MIN_GLASS_CONF:
-            return "scratch"
+    # 3) Per-class confidence gate on the final class.
+    if confidence < MIN_CONF_BY_CLASS.get(candidate, DEFAULT_MIN_CONF):
+        return None
 
-        if box_center_y > img_h * GLASS_MAX_Y:
-            return "scratch"
-
-        return "glass_shatter"
-
-    # 4️⃣ Dent / Scratch
-    if raw_class in ["dent", "scratch"]:
-        return raw_class
-
-    return raw_class
+    return candidate
 
 
 # =============================
