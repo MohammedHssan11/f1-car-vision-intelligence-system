@@ -19,6 +19,7 @@ if str(BASE_DIR) not in sys.path:
 # and means the heavy car/team/damage stack is only built the first time a
 # video is actually processed — image-only requests never pay for it.
 from app.config import OUTPUT_VIDEO_DIR
+from src.detection import validate_damage_class
 from src.model_loader import (
     get_car_model,
     get_damage_model,
@@ -26,7 +27,7 @@ from src.model_loader import (
     get_team_model,
     get_tracker_config_path,
 )
-from tracking_memory.tracker_core import update_cars, cars
+from tracking_memory.tracker_core import update_cars
 from tracking_memory.damage_assigner import assign_damage
 from tracking_memory.collision_detector import detect_collisions
 from tracking_memory.overtake_detector import detect_overtakes
@@ -99,9 +100,12 @@ def run_full_pipeline(video_path, output_name="result.mp4", progress_callback=No
     """
 
     # =============================
-    # RESET GLOBAL STATE
+    # PER-RUN TRACK STATE
     # =============================
-    cars.clear()
+    # Local to this call, not a module global, so concurrent pipeline runs
+    # (blocking routes can be served in parallel) never share or corrupt each
+    # other's tracking state.
+    cars = {}
 
     # =============================
     # LOAD MODELS (lazy, cached)
@@ -221,7 +225,7 @@ def run_full_pipeline(video_path, output_name="result.mp4", progress_callback=No
         # =============================
         # UPDATE TRACK MEMORY
         # =============================
-        update_cars(detections, frame_idx, fps)
+        update_cars(cars, detections, frame_idx, fps)
 
         # =============================
         # DAMAGE DETECTION (batched)
@@ -257,15 +261,33 @@ def run_full_pipeline(video_path, output_name="result.mp4", progress_callback=No
                     verbose=False
                 )
 
-                for (x1, y1), r in zip(crop_offsets, dmg_results):
+                for (x1, y1), crop, r in zip(crop_offsets, crops, dmg_results):
                     if r.boxes is None:
                         continue
 
-                    for box, cls in zip(r.boxes.xyxy, r.boxes.cls):
+                    crop_h, crop_w = crop.shape[:2]
+                    for box, cls, score in zip(
+                        r.boxes.xyxy, r.boxes.cls, r.boxes.conf
+                    ):
                         dx1, dy1, dx2, dy2 = map(int, box)
+                        raw_class = damage_model.names[int(cls)]
+
+                        # Same geometry validation the image endpoint applies
+                        # (src/detection.py), run against the car crop's own
+                        # dimensions so the image and video paths agree on what
+                        # counts as damage instead of the video path trusting
+                        # every raw YOLO box.
+                        damage_type = validate_damage_class(
+                            raw_class, float(score),
+                            dx1, dy1, dx2, dy2,
+                            crop_h, crop_w,
+                        )
+                        if damage_type is None:
+                            continue
+
                         damage_detections.append({
                             "bbox": [x1 + dx1, y1 + dy1, x1 + dx2, y1 + dy2],
-                            "type": damage_model.names[int(cls)]
+                            "type": damage_type,
                         })
 
             assign_damage(cars, damage_detections, frame_idx)

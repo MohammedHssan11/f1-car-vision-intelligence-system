@@ -16,7 +16,7 @@ import cv2
 from ultralytics import YOLO
 from fastai.vision.all import load_learner, PILImage
 
-from tracking_memory.tracker_core import update_cars, cars
+from tracking_memory.tracker_core import update_cars
 from tracking_memory.damage_assigner import assign_damage
 from app.config import (
     CAR_MODEL_PATH,
@@ -25,6 +25,10 @@ from app.config import (
     TRACKER_CONFIG_PATH,
     verify_model_integrity,
 )
+
+# Per-run tracking state for this standalone script (update_cars now takes it
+# as an argument instead of using a module-level global).
+cars = {}
 
 # =============================
 # CONFIG
@@ -154,7 +158,7 @@ while True:
     # =============================
     # UPDATE TRACK MEMORY
     # =============================
-    update_cars(detections, frame_idx, fps)
+    update_cars(cars, detections, frame_idx, fps)
 
     # =============================
     # DAMAGE DETECTION

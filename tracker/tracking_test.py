@@ -16,7 +16,7 @@ init(autoreset=True)
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR))
 
-from tracking_memory.tracker_core import update_cars, cars
+from tracking_memory.tracker_core import update_cars
 from tracking_memory.damage_assigner import assign_damage
 from tracking_memory.collision_detector import detect_collisions
 from tracking_memory.overtake_detector import detect_overtakes
@@ -27,6 +27,10 @@ from app.config import (
     TRACKER_CONFIG_PATH,
     verify_model_integrity,
 )
+
+# Per-run tracking state for this standalone script (update_cars now takes it
+# as an argument instead of using a module-level global).
+cars = {}
 
 # =============================
 # CONFIG
@@ -172,7 +176,7 @@ while True:
                 if crop.size > 0:
                     cars[track_id].set_team(predict_team(crop))
 
-    update_cars(detections, frame_idx, fps)
+    update_cars(cars, detections, frame_idx, fps)
 
     # ===== DAMAGE =====
     damage_detections = []
