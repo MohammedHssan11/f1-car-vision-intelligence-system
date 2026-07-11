@@ -49,6 +49,31 @@ This allows the system to go **beyond off-the-shelf models**.
 
 ---
 
+## 📈 Model Performance
+
+Measured on held-out data (methodology in [`benchmarks/`](benchmarks/)).
+
+**Car detector — YOLOv8 (`f1_car`)** · 101-image held-out validation set
+
+| Metric | Score |
+|--------|-------|
+| mAP@0.5 | **0.983** |
+| mAP@0.5:0.95 | **0.937** |
+| Precision | 0.970 |
+| Recall | 0.937 |
+
+**Team classifier — FastAI ResNet34** · 477 validation images, 8 teams
+
+| Metric | Score |
+|--------|-------|
+| Overall accuracy | **0.973** (464 / 477) |
+| Perfect (1.00) | Ferrari · Renault · Williams |
+| Weakest | AlphaTauri 0.83 — confused with Red Bull (near-identical sister-team livery) |
+
+> ℹ️ Team accuracy is *indicative*: validation labels are derived from filenames and may overlap the training split. Damage-detector per-class mAP is pending re-evaluation on the CarDD test set.
+
+---
+
 ## 🔬 Detected Events
 
 | Event | Detection Logic |

@@ -27,6 +27,37 @@ Expected labels and measured observations are listed separately. `null` expected
 | `event_detection_accuracy` | `None` |
 | `accuracy_notes` | `Only team image labels are available in this manifest. Car boxes, damage labels, and video events are measured qualitatively only.` |
 
+## Measured Model Metrics (held-out)
+
+Computed 2026-07-11 directly against labeled hold-out data, separate from this manifest's qualitative samples.
+
+### Car detector — YOLOv8, `f1_car` (roboflow held-out val: 101 images / 111 instances)
+
+| Metric | Value |
+| ------ | ----- |
+| mAP@0.5 | 0.983 |
+| mAP@0.5:0.95 | 0.937 |
+| Precision | 0.970 |
+| Recall | 0.937 |
+
+### Team classifier — FastAI ResNet34 (477 images, filename-derived labels — indicative)
+
+| Team | Accuracy |
+| ---- | -------- |
+| Overall | 0.973 (464/477) |
+| Ferrari / Renault / Williams | 1.000 |
+| Red Bull Racing | 0.985 |
+| McLaren | 0.984 |
+| Mercedes | 0.949 |
+| Racing Point | 0.944 |
+| AlphaTauri | 0.828 |
+
+Caveat: team validation labels come from filename prefixes and may overlap the classifier's training split, so treat as indicative rather than a clean held-out score. Notable confusions: AlphaTauri → Red Bull / Williams, Mercedes → Williams.
+
+### Damage detector — YOLOv8, 7 CarDD classes
+
+Per-class mAP not yet measured: the CarDD validation set is not currently on disk. Re-run against the CarDD YOLO `val` split to report per-class precision / recall / mAP.
+
 ## Sample Results
 
 | Sample | Type | Expected | Observed | Metrics |
