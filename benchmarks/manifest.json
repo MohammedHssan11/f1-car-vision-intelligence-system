@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "description": "Phase 4 benchmark manifest. Paths reference existing project assets; no dataset files are duplicated.",
+  "samples": [
+    {
+      "id": "image_ferrari_0014",
+      "type": "image",
+      "path": "splited_dataset/val/valid_images/ferrari_f1_car_0014.jpg",
+      "evaluation_scope": ["car_detection", "damage_detection", "team_classification"],
+      "expected": {
+        "team_label": "ferrari",
+        "car_boxes": null,
+        "damage_labels": null
+      },
+      "expected_notes": "Team label is inferred from dataset filename. No box-level car annotations or damage labels are available for this sample."
+    },
+    {
+      "id": "image_mclaren_0001",
+      "type": "image",
+      "path": "splited_dataset/val/valid_images/mclaren_f1_car_0001.jpg",
+      "evaluation_scope": ["car_detection", "damage_detection", "team_classification"],
+      "expected": {
+        "team_label": "mclaren",
+        "car_boxes": null,
+        "damage_labels": null
+      },
+      "expected_notes": "Team label is inferred from dataset filename. No box-level car annotations or damage labels are available for this sample."
+    },
+    {
+      "id": "image_mercedes_0006",
+      "type": "image",
+      "path": "splited_dataset/val/valid_images/mercedes_f1_car_0006.jpg",
+      "evaluation_scope": ["car_detection", "damage_detection", "team_classification"],
+      "expected": {
+        "team_label": "mercedes",
+        "car_boxes": null,
+        "damage_labels": null
+      },
+      "expected_notes": "Team label is inferred from dataset filename. No box-level car annotations or damage labels are available for this sample."
+    },
+    {
+      "id": "video_tracker2",
+      "type": "video",
+      "path": "tracker/tracker2.mp4",
+      "evaluation_scope": ["car_tracking", "team_classification", "damage_detection", "collision_detection", "overtake_detection"],
+      "expected": {
+        "tracked_cars": null,
+        "team_labels": null,
+        "damage_labels": null,
+        "collisions": null,
+        "overtakes": null
+      },
+      "expected_notes": "No frame-level, event-level, or track-level ground truth labels are available. This sample is measured as a qualitative pipeline regression sample."
+    }
+  ]
+}

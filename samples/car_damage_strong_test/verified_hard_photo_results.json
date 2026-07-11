@@ -1,0 +1,485 @@
+[
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_01_original_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_01_original_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_01_original_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 2,
+    "valid_detection_counts": {
+      "deformation": 2
+    },
+    "detections": [
+      {
+        "bbox": [
+          1260,
+          835,
+          1390,
+          906
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.723473072052002
+      },
+      {
+        "bbox": [
+          873,
+          902,
+          1135,
+          1072
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.49417537450790405
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9495,
+    "car_boxes": [
+      [
+        1,
+        0,
+        1535,
+        1282
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_02_dark_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_02_dark_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_02_dark_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 1,
+    "valid_detection_counts": {
+      "deformation": 1
+    },
+    "detections": [
+      {
+        "bbox": [
+          1262,
+          836,
+          1388,
+          905
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.610882043838501
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9573,
+    "car_boxes": [
+      [
+        1,
+        0,
+        1536,
+        1282
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_03_rotated_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_03_rotated_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_03_rotated_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 2,
+    "valid_detection_counts": {
+      "deformation": 2
+    },
+    "detections": [
+      {
+        "bbox": [
+          1256,
+          880,
+          1424,
+          943
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.6790420413017273
+      },
+      {
+        "bbox": [
+          862,
+          931,
+          1122,
+          1086
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.5138862729072571
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9504,
+    "car_boxes": [
+      [
+        0,
+        0,
+        1536,
+        1287
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_04_bright_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_04_bright_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_04_bright_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 2,
+    "valid_detection_counts": {
+      "deformation": 2
+    },
+    "detections": [
+      {
+        "bbox": [
+          1260,
+          834,
+          1390,
+          906
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.7593759298324585
+      },
+      {
+        "bbox": [
+          871,
+          902,
+          1134,
+          1075
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.5743719935417175
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9461,
+    "car_boxes": [
+      [
+        1,
+        0,
+        1534,
+        1279
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_05_jpeg_quality55_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_05_jpeg_quality55_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_05_jpeg_quality55_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 1,
+    "valid_detection_counts": {
+      "deformation": 1
+    },
+    "detections": [
+      {
+        "bbox": [
+          1260,
+          835,
+          1390,
+          905
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.7299439907073975
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9388,
+    "car_boxes": [
+      [
+        0,
+        0,
+        1534,
+        1297
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_06_mild_blur_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_06_mild_blur_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_06_mild_blur_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 1,
+    "valid_detection_counts": {
+      "deformation": 1
+    },
+    "detections": [
+      {
+        "bbox": [
+          1260,
+          835,
+          1387,
+          904
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.45730406045913696
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.947,
+    "car_boxes": [
+      [
+        1,
+        0,
+        1535,
+        1286
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_07_light_noise_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_07_light_noise_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_07_light_noise_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 2,
+    "valid_detection_counts": {
+      "deformation": 2
+    },
+    "detections": [
+      {
+        "bbox": [
+          1260,
+          835,
+          1388,
+          906
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.7063693404197693
+      },
+      {
+        "bbox": [
+          873,
+          906,
+          1134,
+          1072
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.5163549184799194
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9485,
+    "car_boxes": [
+      [
+        1,
+        0,
+        1535,
+        1281
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_08_gamma_low_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_08_gamma_low_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_08_gamma_low_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 1,
+    "valid_detection_counts": {
+      "deformation": 1
+    },
+    "detections": [
+      {
+        "bbox": [
+          1261,
+          835,
+          1393,
+          906
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.6764417886734009
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9544,
+    "car_boxes": [
+      [
+        1,
+        0,
+        1536,
+        1285
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_09_gamma_high_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_09_gamma_high_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_09_gamma_high_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 2,
+    "valid_detection_counts": {
+      "deformation": 2
+    },
+    "detections": [
+      {
+        "bbox": [
+          1260,
+          835,
+          1388,
+          906
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.747467577457428
+      },
+      {
+        "bbox": [
+          872,
+          900,
+          1135,
+          1071
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.6193464994430542
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.942,
+    "car_boxes": [
+      [
+        1,
+        0,
+        1534,
+        1280
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_10_phone_crop_deformation.jpg",
+    "selected_file": null,
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_10_phone_crop_deformation_damage.jpg",
+    "pass": false,
+    "valid_detections": 0,
+    "valid_detection_counts": {},
+    "detections": [],
+    "car_detections": 1,
+    "car_max_confidence": 0.9431,
+    "car_boxes": [
+      [
+        2,
+        0,
+        1527,
+        1343
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_11_left_focus_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_11_left_focus_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_11_left_focus_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 1,
+    "valid_detection_counts": {
+      "deformation": 1
+    },
+    "detections": [
+      {
+        "bbox": [
+          1359,
+          903,
+          1535,
+          979
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.5185500979423523
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9458,
+    "car_boxes": [
+      [
+        0,
+        3,
+        1535,
+        1384
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  },
+  {
+    "file": "samples\\car_damage_strong_test\\generated_variants\\damage_12_horizontal_flip_deformation.jpg",
+    "selected_file": "samples\\car_damage_strong_test\\selected\\damage_12_horizontal_flip_deformation.jpg",
+    "output_path": "samples\\car_damage_strong_test\\results\\verified_hard_images\\damage_12_horizontal_flip_deformation_damage.jpg",
+    "pass": true,
+    "valid_detections": 3,
+    "valid_detection_counts": {
+      "deformation": 3
+    },
+    "detections": [
+      {
+        "bbox": [
+          107,
+          825,
+          278,
+          904
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.7887164950370789
+      },
+      {
+        "bbox": [
+          0,
+          0,
+          179,
+          184
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.57857346534729
+      },
+      {
+        "bbox": [
+          399,
+          916,
+          680,
+          1083
+        ],
+        "raw_class": "deformation",
+        "class_name": "deformation",
+        "confidence": 0.5263671278953552
+      }
+    ],
+    "car_detections": 1,
+    "car_max_confidence": 0.9314,
+    "car_boxes": [
+      [
+        0,
+        0,
+        1536,
+        1362
+      ]
+    ],
+    "width": 1536,
+    "height": 1536
+  }
+]

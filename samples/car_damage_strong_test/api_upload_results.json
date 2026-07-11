@@ -1,0 +1,167 @@
+[
+  {
+    "file": "uploads\\images\\strong_damage_01_original_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/2ab86d2191dd4a91862838e0db115bbe_damage.jpg",
+        "local_path": "app\\static\\results\\2ab86d2191dd4a91862838e0db115bbe_damage.jpg",
+        "exists": true,
+        "size": 1051200
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_02_dark_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/394f9920b36c40df9693009f3fd7c5d0_damage.jpg",
+        "local_path": "app\\static\\results\\394f9920b36c40df9693009f3fd7c5d0_damage.jpg",
+        "exists": true,
+        "size": 899597
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_03_rotated_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/285b5a2d31204cd9a4d112afcf07c3c8_damage.jpg",
+        "local_path": "app\\static\\results\\285b5a2d31204cd9a4d112afcf07c3c8_damage.jpg",
+        "exists": true,
+        "size": 888554
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_04_bright_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/d75a0ce8117e446697082a6faeaccc36_damage.jpg",
+        "local_path": "app\\static\\results\\d75a0ce8117e446697082a6faeaccc36_damage.jpg",
+        "exists": true,
+        "size": 1053307
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_05_jpeg_quality55_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/0748b711f7814e23ac09e63fdeb9bf89_damage.jpg",
+        "local_path": "app\\static\\results\\0748b711f7814e23ac09e63fdeb9bf89_damage.jpg",
+        "exists": true,
+        "size": 696125
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_06_mild_blur_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/2767e410d652442885d4a0efcf653adc_damage.jpg",
+        "local_path": "app\\static\\results\\2767e410d652442885d4a0efcf653adc_damage.jpg",
+        "exists": true,
+        "size": 768283
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_07_light_noise_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/71cef26979ae4884bd5146c114e67566_damage.jpg",
+        "local_path": "app\\static\\results\\71cef26979ae4884bd5146c114e67566_damage.jpg",
+        "exists": true,
+        "size": 1048591
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_08_gamma_low_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/d3ed9ddc06374d589a576fd2bd27923a_damage.jpg",
+        "local_path": "app\\static\\results\\d3ed9ddc06374d589a576fd2bd27923a_damage.jpg",
+        "exists": true,
+        "size": 1040505
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_09_gamma_high_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/646cd8ce3e524dc4a6972256baa89b5b_damage.jpg",
+        "local_path": "app\\static\\results\\646cd8ce3e524dc4a6972256baa89b5b_damage.jpg",
+        "exists": true,
+        "size": 1042534
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_11_left_focus_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/d279bc964fd64ff5b7b2531f065a127a_damage.jpg",
+        "local_path": "app\\static\\results\\d279bc964fd64ff5b7b2531f065a127a_damage.jpg",
+        "exists": true,
+        "size": 841072
+      }
+    ],
+    "pass": true
+  },
+  {
+    "file": "uploads\\images\\strong_damage_12_horizontal_flip_deformation.jpg",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "result_count": 1,
+    "results": [
+      {
+        "url": "/static/results/773ffb8e7d42475582ae8666c53a743d_damage.jpg",
+        "local_path": "app\\static\\results\\773ffb8e7d42475582ae8666c53a743d_damage.jpg",
+        "exists": true,
+        "size": 1053451
+      }
+    ],
+    "pass": true
+  }
+]

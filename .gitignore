@@ -1,0 +1,107 @@
+# ========================
+# Virtual Environment
+# ========================
+venv/
+
+# ========================
+# Python Cache
+# ========================
+__pycache__/
+*.pyc
+*.pyo
+
+# ========================
+# Datasets (DO NOT PUSH)
+# ========================
+data/
+datasets/
+*/datasets/
+yolo*/
+roboflow*/
+Formula*/
+
+# ========================
+# Model Weights
+# ========================
+*.pt
+*.pth
+*.pkl
+*.onnx
+
+# ========================
+# Outputs / Uploads
+# ========================
+outputs/
+uploads/
+runs/
+results/
+
+# ========================
+# Logs
+# ========================
+*.log
+
+# ========================
+# OS / Editor
+# ========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ========================
+# Stray / duplicate trees
+# ========================
+f1-race-intelligence-damage-analysis-github/
+yolo_model_robflow/
+
+# ========================
+# Root-level scratch scripts & generated reports (not part of the app)
+# ========================
+/test1.py
+/test2.py
+/damage_video_inference.py
+/fix_yoloDF.py
+/splitDF_yolo.py
+/scripts
+/PROJECT_REVERSE_ENGINEERING_REPORT.md
+/phases.md
+/full_doc.md
+
+# ========================
+# Generated media at repo root (regenerated at runtime)
+# ========================
+/*.mp4
+/*.avi
+/damage_timeline.*
+
+# Bundled tracker test clips (keep only tracker2.mp4 as the demo sample)
+tracker/*.avi
+tracker/test_*.mp4
+tracker/test__*.mp4
+
+# ========================
+# Secrets
+# ========================
+.env
+
+# ========================
+# Training / eval dataset — keep ONLY the 3 small benchmark demo images
+# ========================
+splited_dataset/*
+!splited_dataset/val
+splited_dataset/val/*
+!splited_dataset/val/valid_images
+splited_dataset/val/valid_images/*
+!splited_dataset/val/valid_images/ferrari_f1_car_0014.jpg
+!splited_dataset/val/valid_images/mclaren_f1_car_0001.jpg
+!splited_dataset/val/valid_images/mercedes_f1_car_0006.jpg
+
+# ========================
+# Sample test media — keep the READMEs/JSON manifests, drop heavy images & video
+# ========================
+samples/**/*.jpg
+samples/**/*.jpeg
+samples/**/*.png
+samples/**/*.mp4
+samples/**/*.avi

@@ -1,0 +1,116 @@
+[
+  {
+    "file": "Broken_car_front_bumper.jpg",
+    "status": "reject_no_damage_detection",
+    "size": 441921,
+    "shape": [
+      960,
+      1280,
+      3
+    ],
+    "damage_valid_detections": 0,
+    "damage_valid_counts": {},
+    "car_detections": 1,
+    "car_max_confidence": 0.9283,
+    "annotated_output": "samples\\car_damage_strong_test\\results\\images\\Broken_car_front_bumper_damage.jpg"
+  },
+  {
+    "file": "Broken_car_window_in_salvage_yard_with_debris_and_damaged_interior_seen_through_windshield.jpg",
+    "status": "reject_no_damage_detection",
+    "size": 152117,
+    "shape": [
+      853,
+      1280,
+      3
+    ],
+    "damage_valid_detections": 0,
+    "damage_valid_counts": {},
+    "car_detections": 0,
+    "car_max_confidence": 0.0,
+    "annotated_output": "samples\\car_damage_strong_test\\results\\images\\Broken_car_window_in_salvage_yard_with_debris_and_damaged_interior_seen_through_windshield_damage.jpg"
+  },
+  {
+    "file": "Car_Accident.jpg",
+    "status": "reject_unreadable",
+    "size": 1967
+  },
+  {
+    "file": "Car_and_building_Damage_from_Katrina_2.jpg",
+    "status": "reject_unreadable",
+    "size": 1967
+  },
+  {
+    "file": "Car_crash_1.jpg",
+    "status": "reject_unreadable",
+    "size": 1967
+  },
+  {
+    "file": "Car_crash_1_cropped_.jpg",
+    "status": "pass",
+    "size": 1071126,
+    "shape": [
+      1536,
+      1536,
+      3
+    ],
+    "damage_valid_detections": 2,
+    "damage_valid_counts": {
+      "deformation": 2
+    },
+    "car_detections": 1,
+    "car_max_confidence": 0.9494,
+    "annotated_output": "samples\\car_damage_strong_test\\results\\images\\Car_crash_1_cropped__damage.jpg"
+  },
+  {
+    "file": "Damaged_car_door.jpg",
+    "status": "reject_unreadable",
+    "size": 1967
+  },
+  {
+    "file": "Damaged_car_window_in_a_junkyard_with_broken_glass_on_the_windshield_and_rows_of_vehicles_in_the_background.jpg",
+    "status": "reject_no_damage_detection",
+    "size": 8745169,
+    "shape": [
+      4032,
+      6048,
+      3
+    ],
+    "damage_valid_detections": 0,
+    "damage_valid_counts": {},
+    "car_detections": 0,
+    "car_max_confidence": 0.0,
+    "annotated_output": "samples\\car_damage_strong_test\\results\\images\\Damaged_car_window_in_a_junkyard_with_broken_glass_on_the_windshield_and_rows_of_vehicles_in_the_background_damage.jpg"
+  },
+  {
+    "file": "Kimi_Raikkonen_2008_Belgium_crash.jpg",
+    "status": "pass",
+    "size": 1041662,
+    "shape": [
+      1353,
+      2031,
+      3
+    ],
+    "damage_valid_detections": 1,
+    "damage_valid_counts": {
+      "lamp_broken": 1
+    },
+    "car_detections": 1,
+    "car_max_confidence": 0.8374,
+    "annotated_output": "samples\\car_damage_strong_test\\results\\images\\Kimi_Raikkonen_2008_Belgium_crash_damage.jpg"
+  },
+  {
+    "file": "Smashed_window_17074306875_.jpg",
+    "status": "reject_no_damage_detection",
+    "size": 12596402,
+    "shape": [
+      3456,
+      5184,
+      3
+    ],
+    "damage_valid_detections": 0,
+    "damage_valid_counts": {},
+    "car_detections": 0,
+    "car_max_confidence": 0.0,
+    "annotated_output": "samples\\car_damage_strong_test\\results\\images\\Smashed_window_17074306875__damage.jpg"
+  }
+]

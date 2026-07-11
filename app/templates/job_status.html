@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOB STATUS | Video Pipeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --f1-red: #e10600;
+            --carbon-core: #050505;
+            --panel-bg: #101117;
+            --cyan-telemetry: #00d2be;
+            --warning-amber: #ffb800;
+            --ok-green: #22c55e;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--carbon-core);
+            background-image:
+                linear-gradient(rgba(0, 210, 190, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 210, 190, 0.05) 1px, transparent 1px);
+            background-size: 48px 48px;
+            color: #e6e6e6;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .status-panel {
+            width: 100%;
+            max-width: 820px;
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65);
+            padding: 34px;
+            position: relative;
+        }
+
+        .status-panel::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-style: solid;
+            border-width: 0 46px 46px 0;
+            border-color: transparent var(--f1-red) transparent transparent;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            margin: 0 0 8px;
+            text-transform: uppercase;
+        }
+
+        .job-id {
+            color: #94a3b8;
+            font-size: 0.86rem;
+            letter-spacing: 1px;
+            overflow-wrap: anywhere;
+        }
+
+        .state-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin: 28px 0;
+        }
+
+        .state-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--cyan-telemetry);
+            padding: 16px;
+        }
+
+        .state-card strong {
+            display: block;
+            color: #94a3b8;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .state-card span {
+            color: white;
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 900;
+            overflow-wrap: anywhere;
+            text-transform: uppercase;
+        }
+
+        .progress-track {
+            background: #05070b;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            height: 24px;
+            overflow: hidden;
+            margin: 12px 0 10px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--f1-red), var(--cyan-telemetry));
+            height: 100%;
+            width: {{ job.progress or 0 }}%;
+            transition: width 0.3s ease;
+        }
+
+        .message {
+            color: var(--cyan-telemetry);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-top: 18px;
+            text-transform: uppercase;
+        }
+
+        .error-box {
+            background: rgba(225, 6, 0, 0.12);
+            border-left: 5px solid var(--f1-red);
+            color: #fecaca;
+            margin-top: 20px;
+            padding: 16px;
+            overflow-wrap: anywhere;
+        }
+
+        .duplicate-box {
+            background: rgba(255, 184, 0, 0.12);
+            border-left: 5px solid var(--warning-amber);
+            color: #fde68a;
+            margin-top: 20px;
+            padding: 16px;
+            overflow-wrap: anywhere;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            color: white;
+            border: 1px solid var(--f1-red);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            padding: 12px 24px;
+            text-decoration: none;
+            text-transform: uppercase;
+            clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%);
+        }
+
+        .btn-primary {
+            background: var(--cyan-telemetry);
+            border-color: var(--cyan-telemetry);
+            color: #001014;
+            display: none;
+        }
+
+        .btn:hover {
+            background: var(--f1-red);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <main class="status-panel">
+        <h1>Pipeline Job</h1>
+        <div class="job-id">JOB // {{ job.job_id }}</div>
+
+        <div class="state-row">
+            <div class="state-card">
+                <strong>Status</strong>
+                <span id="job-status">{{ job.status }}</span>
+            </div>
+            <div class="state-card">
+                <strong>Progress</strong>
+                <span id="job-progress">{{ job.progress or 0 }}%</span>
+            </div>
+            <div class="state-card">
+                <strong>Frames</strong>
+                <span id="job-frames">{{ job.frames_processed or 0 }} / {{ job.total_frames or '?' }}</span>
+            </div>
+        </div>
+
+        <div class="progress-track" aria-label="Job progress">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <div class="message" id="job-message">{{ job.message }}</div>
+        <div class="job-id" style="margin-top: 12px;">SOURCE // {{ job.source_label }}</div>
+
+        {% if job.duplicate_of %}
+            <div class="duplicate-box">This job uses the same source as active job {{ job.duplicate_of }}. It has its own id and output file.</div>
+        {% endif %}
+
+        <div id="job-error" class="error-box" {% if not job.error %}style="display: none;"{% endif %}>{{ job.error }}</div>
+
+        <div class="actions">
+            <a href="{{ job.result_url }}" id="result-link" class="btn btn-primary">View Debrief</a>
+            <a href="/page/pipeline" class="btn">New Job</a>
+        </div>
+    </main>
+
+    <script>
+        const statusUrl = "{{ job.status_url }}";
+        const resultUrl = "{{ job.result_url }}";
+        const statusEl = document.getElementById("job-status");
+        const progressEl = document.getElementById("job-progress");
+        const framesEl = document.getElementById("job-frames");
+        const messageEl = document.getElementById("job-message");
+        const barEl = document.getElementById("progress-bar");
+        const errorEl = document.getElementById("job-error");
+        const resultLink = document.getElementById("result-link");
+
+        function render(job) {
+            const progress = job.progress || 0;
+            statusEl.textContent = job.status;
+            progressEl.textContent = `${progress}%`;
+            framesEl.textContent = `${job.frames_processed || 0} / ${job.total_frames || "?"}`;
+            messageEl.textContent = job.message || job.status;
+            barEl.style.width = `${progress}%`;
+
+            if (job.error) {
+                errorEl.textContent = job.error;
+                errorEl.style.display = "block";
+            }
+
+            if (job.status === "completed") {
+                resultLink.href = resultUrl;
+                resultLink.style.display = "inline-block";
+                return true;
+            }
+
+            if (job.status === "failed") {
+                return true;
+            }
+
+            return false;
+        }
+
+        async function poll() {
+            try {
+                const response = await fetch(statusUrl, {cache: "no-store"});
+                if (!response.ok) {
+                    throw new Error(`Status request failed: ${response.status}`);
+                }
+                const job = await response.json();
+                if (!render(job)) {
+                    window.setTimeout(poll, 1500);
+                }
+            } catch (error) {
+                messageEl.textContent = error.message;
+                window.setTimeout(poll, 3000);
+            }
+        }
+
+        render({
+            status: "{{ job.status }}",
+            progress: {{ job.progress or 0 }},
+            frames_processed: {{ job.frames_processed or 0 }},
+            total_frames: {{ job.total_frames or "null" }},
+            message: "{{ job.message }}",
+            error: {{ job.error|tojson }}
+        });
+        poll();
+    </script>
+</body>
+</html>

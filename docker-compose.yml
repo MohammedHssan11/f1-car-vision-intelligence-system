@@ -1,0 +1,25 @@
+# =========================================================
+# One-command local run:  docker compose up --build
+# App:  http://localhost:8000
+# =========================================================
+services:
+  app:
+    build: .
+    image: f1-cv-app:latest
+    container_name: f1-cv-app
+    ports:
+      - "8000:8000"
+    environment:
+      # Values come from .env when present, else these defaults.
+      # CORS allow-list; override for a non-localhost host.
+      ALLOWED_ORIGINS: "${ALLOWED_ORIGINS:-http://localhost:8000,http://127.0.0.1:8000}"
+      # Pipeline tuning (see docs/MAINTENANCE_GUIDE.md).
+      DAMAGE_EVERY_N_FRAMES: "${DAMAGE_EVERY_N_FRAMES:-10}"
+      MAX_FRAMES: "${MAX_FRAMES:-3000}"
+      PIPELINE_VIDEO_CODEC: "${PIPELINE_VIDEO_CODEC:-mp4v}"
+    volumes:
+      # Persist generated videos and uploads on the host so results
+      # survive container restarts and are inspectable from outside.
+      - ./outputs:/app/outputs
+      - ./uploads:/app/uploads
+    restart: unless-stopped

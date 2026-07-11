@@ -1,0 +1,82 @@
+﻿[
+    {
+        "title":  "File:Kimi Raikkonen 2008 Belgium crash.jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Kimi_Raikkonen_2008_Belgium_crash.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/a/a5/Kimi_Raikkonen_2008_Belgium_crash.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Kimi_Raikkonen_2008_Belgium_crash.jpg",
+        "mime":  "image/jpeg",
+        "size":  1041662
+    },
+    {
+        "title":  "File:Damaged car window in a junkyard with broken glass on the windshield and rows of vehicles in the background.jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Damaged_car_window_in_a_junkyard_with_broken_glass_on_the_windshield_and_rows_of_vehicles_in_the_background.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/5/50/Damaged_car_window_in_a_junkyard_with_broken_glass_on_the_windshield_and_rows_of_vehicles_in_the_background.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Damaged_car_window_in_a_junkyard_with_broken_glass_on_the_windshield_and_rows_of_vehicles_in_the_background.jpg",
+        "mime":  "image/jpeg",
+        "size":  8745169
+    },
+    {
+        "title":  "File:Broken car window in salvage yard with debris and damaged interior seen through windshield.jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Broken_car_window_in_salvage_yard_with_debris_and_damaged_interior_seen_through_windshield.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/1/13/Broken_car_window_in_salvage_yard_with_debris_and_damaged_interior_seen_through_windshield.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Broken_car_window_in_salvage_yard_with_debris_and_damaged_interior_seen_through_windshield.jpg",
+        "mime":  "image/jpeg",
+        "size":  7712797
+    },
+    {
+        "title":  "File:Broken car front bumper.jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Broken_car_front_bumper.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/2/22/Broken_car_front_bumper.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Broken_car_front_bumper.jpg",
+        "mime":  "image/jpeg",
+        "size":  14734197
+    },
+    {
+        "title":  "File:Car Accident.jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Car_Accident.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/4/46/Car_Accident.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Car_Accident.jpg",
+        "mime":  "image/jpeg",
+        "size":  1732369
+    },
+    {
+        "title":  "File:Smashed window (17074306875).jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Smashed_window_17074306875_.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/a/af/Smashed_window_%2817074306875%29.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Smashed_window_(17074306875).jpg",
+        "mime":  "image/jpeg",
+        "size":  12596402
+    },
+    {
+        "title":  "File:Car crash 1.jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Car_crash_1.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/e/e1/Car_crash_1.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Car_crash_1.jpg",
+        "mime":  "image/jpeg",
+        "size":  1415096
+    },
+    {
+        "title":  "File:Car crash 1 (cropped).jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Car_crash_1_cropped_.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/0/01/Car_crash_1_%28cropped%29.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Car_crash_1_(cropped).jpg",
+        "mime":  "image/jpeg",
+        "size":  1071126
+    },
+    {
+        "title":  "File:Damaged car door.jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Damaged_car_door.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/e/e0/Damaged_car_door.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Damaged_car_door.jpg",
+        "mime":  "image/jpeg",
+        "size":  1292463
+    },
+    {
+        "title":  "File:Car and building Damage from Katrina 2.jpg",
+        "file":  "samples\\car_damage_strong_test\\candidates\\Car_and_building_Damage_from_Katrina_2.jpg",
+        "url":  "https://upload.wikimedia.org/wikipedia/commons/5/58/Car_and_building_Damage_from_Katrina_2.jpg",
+        "page":  "https://commons.wikimedia.org/wiki/File:Car_and_building_Damage_from_Katrina_2.jpg",
+        "mime":  "image/jpeg",
+        "size":  690762
+    }
+]

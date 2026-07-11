@@ -1,0 +1,15 @@
+# Normalize line endings: text files are stored as LF in the repo and
+# checked out with the platform's native endings.
+* text=auto eol=lf
+
+# Binary assets: no EOL conversion, no textual diff.
+*.mp4 binary
+*.avi binary
+*.mov binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.pt binary
+*.pth binary
+*.pkl binary
+*.onnx binary

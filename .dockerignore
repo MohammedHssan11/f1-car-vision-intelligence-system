@@ -1,0 +1,63 @@
+# =========================================================
+# Build-context trimming for the F1 CV Docker image.
+# Goal: keep the runtime code + model weights + the small
+# demo assets, drop the ~800MB training dataset, generated
+# outputs, caches, and git history.
+# =========================================================
+
+# --- VCS / tooling ---
+.git
+.gitignore
+.dockerignore
+*.md
+docs/
+notebooks/
+
+# --- Python caches / envs ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+venv/
+.venv/
+env/
+
+# --- Training dataset: keep ONLY the one demo sample image ---
+splited_dataset/*
+!splited_dataset/val
+splited_dataset/val/*
+!splited_dataset/val/valid_images
+splited_dataset/val/valid_images/*
+!splited_dataset/val/valid_images/ferrari_f1_car_0014.jpg
+
+# --- Roboflow / training scratch, extra weights we don't serve ---
+yolo_model_robflow/*.pt
+yolo_model_robflow/runs/detect/train/weights/last.pt
+runs/
+f1-race-intelligence-damage-analysis-github/
+data.yaml
+
+# --- Generated / heavy media (regenerated at runtime) ---
+outputs/videos/*
+uploads/images/*
+uploads/videos/*
+app/static/results/*
+*.avi
+The Worst Car Accident.mp4
+damage_timeline*.png
+damage_timeline*.csv
+damage_timeline_output.mp4
+tracker/test_*.mp4
+tracker/test__*.mp4
+
+# --- Logs ---
+*.log
+logs/
+
+# Keep placeholders so mounted dirs exist
+!outputs/videos/.gitkeep
+!uploads/images/.gitkeep
+!uploads/videos/.gitkeep
+!app/static/results/.gitkeep

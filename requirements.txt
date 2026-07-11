@@ -1,0 +1,24 @@
+# Python 3.11+ is required for the bundled FastAI classifier pickle.
+fastapi
+uvicorn[standard]
+python-multipart
+jinja2
+torch>=2.0
+torchvision==0.21.0
+fastai
+fastprogress<1.1
+plum-dispatch>=2.9,<3
+starlette>=0.40,<0.51
+opencv-python
+numpy
+pandas
+scipy
+pyyaml
+ultralytics>=8.0
+filterpy
+scikit-learn
+matplotlib
+timm
+albumentations
+pillow
+colorama
