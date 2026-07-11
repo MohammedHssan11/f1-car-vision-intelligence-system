@@ -35,17 +35,20 @@ The system converts raw race footage into structured intelligence using **detect
 
 ## 🏷️ Dataset & Model Training
 
-- A **custom dataset of Formula-style race cars** was collected
-- Cars and damage regions were **manually annotated** in YOLO format
-- **YOLOv8 was fine-tuned** on this dataset to reliably detect:
-  - Formula race cars
-  - Visual damage regions
-- Fine-tuning improves robustness to:
-  - Broadcast camera motion
-  - Small, fast-moving objects
-  - Team livery variations
+**Car detection** — a custom Formula-style race-car dataset was collected and
+**annotated on Roboflow** (YOLO format), then used to **fine-tune YOLOv8** for
+robustness to broadcast camera motion, small/fast-moving objects, and team
+livery variation.
 
-This allows the system to go **beyond off-the-shelf models**.
+**Damage detection** — YOLOv8 was **fine-tuned on the public CarDD dataset**
+(7 classes: scratch, dent, glass shatter, lamp broken, tire flat, deformation,
+other damage).
+
+**Team classification** — a **ResNet34** (FastAI) classifier was fine-tuned on
+per-team race-car images across 8 teams.
+
+Combining a fine-tuned detector, a benchmark damage model, and a livery
+classifier lets the system go **beyond off-the-shelf models**.
 
 ---
 
