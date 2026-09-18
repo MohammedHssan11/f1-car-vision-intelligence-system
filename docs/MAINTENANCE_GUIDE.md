@@ -8,16 +8,16 @@ This guide covers model retraining, threshold tuning, and cleanup tasks for the 
 
 Current code behavior:
 
-* Dataset path is hardcoded to `C:\TERM 7\computer vision\final project\Formula One Cars`.
-* Corrupt images are removed after PIL verification.
+* Pass the dataset folder with `--dataset-dir`, or set `TRAINING_DATASET_DIR`; no workstation-specific path is assumed.
+* Corrupt images are reported and training stops without deleting source data.
 * `ImageDataLoaders.from_folder()` uses `valid_pct=0.2`, `seed=42`, `Resize(224)`, and default augmentations.
 * The model is fine-tuned for 5 epochs.
-* Export path is hardcoded to `C:\TERM 7\computer vision\final project\f1_team_classifier.pkl`.
+* The default export is the runtime path `models/f1_team_classifier.pkl`, written atomically.
 
 Important maintenance note:
 
-* Runtime inference loads `models/f1_team_classifier.pkl`, not the root-level export path used by `src/classification.py`.
-* After retraining, move/copy the verified export into `models/f1_team_classifier.pkl` and update `TRUSTED_MODEL_HASHES` in `app/config.py` with the new SHA-256.
+* Run `py -3.11 src\classification.py --dataset-dir "C:\path\to\team-images"`.
+* The command prints the new SHA-256. Review the exported model and update its `TRUSTED_MODEL_HASHES` entry in `app/config.py` before starting the service; the app intentionally refuses an unpinned model.
 
 ## Dataset Preprocessing Scripts
 
@@ -54,7 +54,13 @@ for tuning a demo without touching source:
 | `PIPELINE_TEAM_CONF_TH` | `0.6` | Minimum FastAI team confidence before accepting a team label. |
 | `DAMAGE_EVERY_N_FRAMES` | `10` | Stride for running (batched) damage inference on tracked car crops. Raised from 5 -> 10 for local demo speed; lower it for finer damage tracking at the cost of runtime. |
 | `MAX_FRAMES` | `3000` | Safety cap for processed frames per video. Lowered from 5000 to bound worst-case runtime on long uploads. |
-| `PIPELINE_VIDEO_CODEC` | `mp4v` | FourCC codec for the output writer. `mp4v` is bundled and browser-safe; set to `avc1` only if your OpenCV build ships H.264 (smaller files). |
+| `PIPELINE_VIDEO_CODEC` | `mp4v` | FourCC for the temporary OpenCV file. The published website video is always H.264/AAC via ffmpeg. |
+| `PIPELINE_H264_CRF` | `23` | Published-video quality: lower is higher quality/larger; 23 is balanced. |
+| `PIPELINE_SHOW_SPEED` | `false` | Enables per-car pixel-speed text. Leave off for readable, uncluttered video. |
+| `TRACK_REASSOCIATION_MAX_GAP` | `30` | Largest short tracker dropout eligible for conservative stable-ID recovery. |
+| `TRACK_REASSOCIATION_MAX_SCORE` | `1.4` | Maximum motion/overlap/scale match score; lower values are stricter. |
+| `COLLISION_DECEL_THRESHOLD` | `-1500` | Candidate-impact threshold in px/s² after smoothing; calibrate only with labelled video. |
+| `COLLISION_MIN_DAMAGE_OBSERVATIONS` | `2` | Separate damage inference observations required before an impact event. |
 
 See `docs/BACKEND.md` -> "Performance" for the lazy model cache, batched
 damage inference, and timing logs added in Phase 5.
@@ -74,13 +80,14 @@ Update these constants in `src/detection.py` for single-image damage inference:
 
 Current active paths:
 
-* Car model: `yolo_model_robflow/runs/detect/train/weights/best.pt`
+* Car model: `models/best_f1_detect.pt`
 * Damage model: `models/best_carDD.pt`
 * Team model: `models/f1_team_classifier.pkl`
 
 Current recommended cleanup:
 
 * Keep runtime model paths in `app/config.py`.
+* Pin a SHA-256 for every replacement runtime model before deployment; the car detector, damage detector, and team classifier are all checked before loading.
 * Refresh `DAMAGE_MODEL_PATH` if a new damage detector replaces `models/best_carDD.pt`.
 * Keep `TRACKER_CONFIG_PATH` aligned with `tracker/bytetrack.yaml`.
 
@@ -89,6 +96,7 @@ Current recommended cleanup:
 Run the Phase 1 smoke tests with Python 3.11:
 
 ```powershell
+py -3.11 tests\test_reliability.py
 py -3.11 tests\smoke_phase1.py
 ```
 

@@ -6,23 +6,22 @@ This audit reflects the current code in `app/main.py`, `app/api.py`, `app/config
 
 | Severity | Status | Issue | Evidence | Impact |
 | -------- | ------ | ----- | -------- | ------ |
-| **HIGH** | **Partially mitigated** | Pickle deserialization risk for FastAI team model | `src/pipeline.py` calls `verify_model_integrity(team_model_path)` before `load_learner(team_model_path)` | Tampered `models/f1_team_classifier.pkl` is rejected when the pinned hash does not match. |
+| **HIGH** | **Mitigated** | Runtime model deserialization | `src/model_loader.py` verifies all three model artifacts against pinned SHA-256 hashes before deserialization | Swapped/corrupt YOLO and FastAI model files are rejected. |
 | **HIGH** | **Mitigated in backend** | Path traversal via `/pipeline/run` | `app/api.py` uses `_resolve_safe_upload_path(video_path, UPLOAD_VIDEO_DIR)` | Absolute paths and `..` escapes are rejected before OpenCV receives the path. |
 | **MEDIUM** | **Mitigated for local demo** | Unsafe uploads | `app/api.py` uses `_save_validated_upload()`, `_validate_image_content()`, and `_validate_video_content()` | Extension, size, and readable media content are checked before inference. |
-| **MEDIUM** | **Partially mitigated** | Hardcoded absolute model/dataset paths | Runtime paths are centralized in `app/config.py`; `src/classification.py` still uses local training/export paths | Runtime portability is improved, but retraining remains tied to this workstation layout. |
-| **MEDIUM** | **Open** | YOLO model integrity is not pinned | `src/pipeline.py` and `src/detection.py` load `.pt` files without checksum verification | Replaced model files may alter inference behavior; PyTorch model loading also deserves trust controls. |
+| **LOW** | **Mitigated** | Hardcoded absolute model/dataset paths | Runtime paths are centralized in `app/config.py`; `src/classification.py` uses a CLI/environment-provided dataset path | Retraining is portable across workstations. |
 | **LOW** | **Open** | Missing authentication / authorization | `app/main.py`, `app/api.py` | Anyone with network access to the service can use upload and inference endpoints. |
 | **LOW** | **Improved** | Open CORS | `app/config.py` defines `ALLOWED_ORIGINS` | CORS is no longer wildcard by default, but deployment must set origins intentionally. |
 
 ## Detailed Findings
 
-### 1. FastAI Pickle Deserialization
+### 1. Runtime Model Deserialization
 
-* **Status:** Partially mitigated.
-* **Location:** `src/pipeline.py`, `app/config.py`
-* **Current behavior:** `src/pipeline.py` verifies `models/f1_team_classifier.pkl` with `verify_model_integrity()` before calling FastAI `load_learner()`.
-* **Verified pinned hash:** `d6594c0c1d5c7804ed65e20ce228eb07dbdf6b2829a244105d08577a53b244af`
-* **Residual risk:** The application still uses a pickle-based FastAI export, so safe operation depends on keeping the pinned hash current and only updating it after manual model verification.
+* **Status:** Mitigated for the shipped artifacts.
+* **Location:** `src/model_loader.py`, `app/config.py`
+* **Current behavior:** `verify_model_integrity()` validates the car detector, damage detector, and FastAI team classifier before Ultralytics or FastAI deserializes them.
+* **Verified pinned artifacts:** `models/best_f1_detect.pt`, `models/best_carDD.pt`, and `models/f1_team_classifier.pkl`.
+* **Residual risk:** FastAI exports and PyTorch weight files remain executable deserialization formats. Safe operation depends on reviewing each replacement model and updating its pinned hash only as part of a trusted release.
 
 ### 2. Server-Local Video Path Traversal
 
@@ -43,10 +42,9 @@ This audit reflects the current code in `app/main.py`, `app/api.py`, `app/config
 ### 4. Hardcoded Absolute Paths
 
 * **Status:** Partially mitigated.
-* **Locations:**
-  * `src/classification.py`: training dataset and export paths still use absolute `C:\TERM 7\...` paths.
-* **Current workspace evidence:** Runtime model, tracker, upload, output, and demo sample paths are centralized in `app/config.py`; the remaining hardcoded paths are in the training script.
-* **Recommendation:** Move training dataset/export paths into configuration or CLI arguments before retraining.
+* **Location:** `src/classification.py`.
+* **Current behavior:** Training data is supplied with `--dataset-dir` or `TRAINING_DATASET_DIR`; the default atomic export is the configured runtime team-model path.
+* **Maintenance requirement:** Review the new artifact and replace its pinned hash in `app/config.py` before deployment.
 
 ### 5. Tracker Config Path Mismatch
 

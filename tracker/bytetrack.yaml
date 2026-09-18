@@ -1,8 +1,10 @@
 tracker_type: bytetrack
-track_high_thresh: 0.5
+track_high_thresh: 0.45
 track_low_thresh: 0.1
-new_track_thresh: 0.5
-track_buffer: 30
+new_track_thresh: 0.55
+# Retain a track for roughly three seconds at 30 FPS, reducing identity
+# fragmentation when cars are briefly hidden by another car or a broadcast cut.
+track_buffer: 90
 match_thresh: 0.8
 fuse_score: true
 mot20: false

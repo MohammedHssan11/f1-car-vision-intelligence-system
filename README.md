@@ -81,7 +81,7 @@ Measured on held-out data (methodology in [`benchmarks/`](benchmarks/)).
 
 | Event | Detection Logic |
 |------|----------------|
-| Collision | Sudden deceleration + new damage |
+| Collision | Probable impact: strong recent deceleration + damage confirmed on two inference frames |
 | Overtake | Temporal rank change (path-based) |
 | Damage | YOLO detection + temporal validation |
 
@@ -89,7 +89,8 @@ Measured on held-out data (methodology in [`benchmarks/`](benchmarks/)).
 
 ## 📊 Damage Severity
 
-Damage severity is inferred from how long it persists:
+Damage severity is inferred from its elapsed persistence in the video (not the
+number of sparse damage-inference calls):
 
 - **LOW** → < 10 frames  
 - **MEDIUM** → 10–30 frames  
@@ -120,9 +121,12 @@ Damage severity is inferred from how long it persists:
 
 - Pixel-based speed estimation (no telemetry)
 - Broadcast camera motion introduces noise
+- Overtakes are heuristic until track coordinates and labelled event footage are available
 - Very small damages may be missed
 
-These are mitigated using temporal smoothing and multi-signal logic.
+Collision results are conservative visual-impact candidates, not official race
+steward decisions. These limits are mitigated using temporal smoothing,
+stable-ID recovery, and multi-signal logic.
 
 ---
 

@@ -66,7 +66,7 @@ MAX_VIDEO_SIZE_BYTES = 500 * 1024 * 1024     # 500 MB
 ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.environ.get(
-        "ALLOWED_ORIGINS", "http://localhost:8000,http://127.0.0.1:8000"
+        "ALLOWED_ORIGINS", "http://localhost:8010,http://127.0.0.1:8010"
     ).split(",")
     if origin.strip()
 ]
@@ -74,10 +74,18 @@ ALLOWED_ORIGINS = [
 # =============================
 # MODEL INTEGRITY (anti-tamper)
 # =============================
-# Pinned SHA-256 of trusted model files. Verified before any pickle-based
-# model (e.g. FastAI's load_learner) is deserialized, since a swapped .pkl
-# file can execute arbitrary code on load.
+# Pinned SHA-256 of every runtime model artifact. Ultralytics `.pt` files and
+# FastAI `.pkl` files both ultimately use PyTorch deserialization, so treating
+# only the pickle as trusted leaves an avoidable supply-chain gap. A model
+# upgrade is an explicit release action: calculate its SHA-256, review the
+# artifact, then update the matching value below in the same code change.
 TRUSTED_MODEL_HASHES = {
+    "models/best_f1_detect.pt": (
+        "c9a8663e7f24b318add269d84e8a0a5c9a4c23928604cc31bcaaecaa1f24e160"
+    ),
+    "models/best_carDD.pt": (
+        "745e7f74445226d56ce033a95827c42dfb1f37fea2839913d4c19fe14ea73132"
+    ),
     "models/f1_team_classifier.pkl": (
         "d6594c0c1d5c7804ed65e20ce228eb07dbdf6b2829a244105d08577a53b244af"
     ),
@@ -91,8 +99,8 @@ class ModelIntegrityError(RuntimeError):
 def verify_model_integrity(model_path: Path) -> None:
     """
     Verify a model file's SHA-256 hash against TRUSTED_MODEL_HASHES before it
-    is deserialized. Required for any pickle-based model (e.g. FastAI's
-    load_learner), since loading a tampered pickle can execute arbitrary code.
+    is deserialized. This applies to every runtime model; both FastAI exports
+    and PyTorch/Ultralytics weights must be treated as executable artifacts.
 
     Files not present in TRUSTED_MODEL_HASHES are rejected rather than
     silently allowed, so a new model must be explicitly pinned here.

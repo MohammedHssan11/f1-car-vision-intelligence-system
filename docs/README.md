@@ -46,10 +46,9 @@ The system is a local FastAPI computer vision app for Formula 1-style race foota
 |   `-- tracking_test2.py        # Headless tracking harness
 |-- models/
 |   |-- best_carDD.pt            # Runtime damage detector
-|   |-- best_f1_detect.pt        # Present, but current code loads yolo_model_robflow/.../best.pt
+|   |-- best_f1_detect.pt        # Active car-detector runtime model (SHA-256 pinned)
 |   `-- f1_team_classifier.pkl   # Runtime team classifier
-|-- yolo_model_robflow/
-|   `-- runs/detect/train/weights/best.pt  # Runtime car detector
+|-- yolo_model_robflow/           # Ignored training-scratch output; not used at runtime
 |-- uploads/
 |-- outputs/
 |-- docs/

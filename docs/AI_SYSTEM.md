@@ -24,8 +24,8 @@ graph LR
 ## YOLOv8 Car Detector and Tracker
 
 * **Framework:** Ultralytics YOLOv8 / PyTorch.
-* **Runtime Weight Path:** `yolo_model_robflow/runs/detect/train/weights/best.pt`.
-* **Duplicate Available Weight:** `models/best_f1_detect.pt` exists and has the same size as the runtime `best.pt`, but the current code loads the `yolo_model_robflow/.../best.pt` path.
+* **Runtime Weight Path:** `models/best_f1_detect.pt`, configured by `app.config.CAR_MODEL_PATH`.
+* **Integrity control:** Its SHA-256 is pinned and verified before Ultralytics loads it.
 * **Dataset Config:** `data.yaml`.
 * **Class Labels:** `['f1_car']`.
 * **Confidence Threshold:** `CONF_TH = 0.4`.
@@ -35,6 +35,7 @@ graph LR
 
 * **Framework:** Ultralytics YOLOv8 / PyTorch.
 * **Runtime Path in Code:** `models/best_carDD.pt`, configured by `app.config.DAMAGE_MODEL_PATH`.
+* **Integrity control:** Its SHA-256 is pinned and verified before Ultralytics loads it.
 * **Image Endpoint Threshold:** `BASE_CONF = 0.45` in `src/detection.py`.
 * **Video Pipeline Threshold:** `DAMAGE_CONF_TH = 0.4` in `src/pipeline.py`.
 * **Damage Classes Used by Logic:** `tire_flat`, `glass_shatter`, `dent`, `scratch`, plus derived `glass_missing` from geometry heuristics.
@@ -54,7 +55,7 @@ Damage post-processing rules in `src/detection.py`:
 * **Integrity Control:** `app.config.verify_model_integrity()` checks the model SHA-256 before `load_learner()` runs.
 * **Pinned SHA-256:** `d6594c0c1d5c7804ed65e20ce228eb07dbdf6b2829a244105d08577a53b244af`.
 * **Inference Threshold:** `TEAM_CONF_TH = 0.6`; lower-confidence predictions become `"UNKNOWN"`.
-* **Training Script Mismatch:** `src/classification.py` exports to the project root `f1_team_classifier.pkl`, while runtime loads `models/f1_team_classifier.pkl`.
+* **Training command:** `src/classification.py --dataset-dir <team-folder>` exports atomically to the runtime model path by default. It prints the required new SHA-256, which must be reviewed and pinned in `app/config.py` before deployment.
 
 ## Video Processing Pipeline Trace
 
@@ -62,9 +63,9 @@ Damage post-processing rules in `src/detection.py`:
 flowchart TD
     A[Input video] --> B[cv2.VideoCapture]
     B --> C[car_model.track]
-    C --> D[Update tracking_memory.cars]
-    D --> E[Classify team once per track ID]
-    D --> F{Frame index divisible by 5}
+    C --> D[Resolve short ID switches and update tracking memory]
+    D --> E[Classify team once per stable car identity]
+    D --> F{Frame index divisible by 10}
     F -- Yes --> G[Crop active cars and run damage YOLO]
     G --> H[Assign damage by IoU > 0.3]
     F -- No --> I[Skip damage inference]
@@ -79,15 +80,15 @@ flowchart TD
 
 | Event | Current Logic |
 | ----- | ------------- |
-| Collision | Latest acceleration below `-300` and new damage first seen on the same frame; 15-frame cooldown. |
-| Overtake | Active cars sorted by `path_length`; rank improvement after cooldown creates an event. |
-| Damage Severity | `LOW` for up to 10 observed frames, `MEDIUM` for more than 10, `HIGH` for more than 30. |
+| Collision | A probable impact requires strong recent *smoothed* deceleration, adequate pre-impact speed, and a damage class confirmed on two inference frames. The lookback window bridges the damage-inference stride. |
+| Overtake | Currently, visible active cars are sorted by `path_length`; rank improvement after cooldown creates a heuristic event. It is not a telemetry-grade position estimate. |
+| Damage Severity | `LOW` through 10 elapsed video frames, `MEDIUM` through 30, `HIGH` beyond 30. |
 
 ## Current Runtime Notes
 
 * `src/pipeline.py` checks that the car model, damage model, team model, and tracker config exist before loading models.
-* Pipeline outputs are requested as `.mp4` by the API and written with an MP4 codec when the output suffix is `.mp4`.
-* The remaining model maintenance mismatch is in `src/classification.py`, which exports to the project root while runtime loads `models/f1_team_classifier.pkl`.
+* Pipeline outputs are requested as `.mp4`; OpenCV writes an intermediate, then ffmpeg publishes a browser-compatible H.264/AAC MP4 with fast-start metadata.
+* New raw ByteTrack IDs are only re-associated when motion, overlap, and scale agree unambiguously within a short gap. The summary exposes `track_reassociations` for inspection.
 
 ## Phase 4 Benchmark Harness
 

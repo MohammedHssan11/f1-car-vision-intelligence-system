@@ -12,12 +12,13 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# OpenCV (opencv-python) needs libGL + glib even in headless use;
-# ultralytics/torch pull the rest from pip.
+# OpenCV needs libGL + glib even in headless use. ffmpeg publishes the
+# annotated intermediate as an H.264/AAC MP4 that browsers can play.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         libgl1 \
         libglib2.0-0 \
+        ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

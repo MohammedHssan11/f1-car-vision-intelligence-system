@@ -43,10 +43,10 @@ also sidesteps the Windows-only path caveat above.
 # From the project root:
 docker compose up --build
 
-# App:  http://localhost:8000
-#       http://localhost:8000/page/damage
-#       http://localhost:8000/page/pipeline
-#       http://localhost:8000/docs
+# App:  http://localhost:8010
+#       http://localhost:8010/page/damage
+#       http://localhost:8010/page/pipeline
+#       http://localhost:8010/docs
 ```
 
 Stop with `Ctrl+C`, or `docker compose down`.
@@ -67,10 +67,15 @@ Stop with `Ctrl+C`, or `docker compose down`.
 
 | Variable | Default | Purpose |
 | -------- | ------- | ------- |
-| `ALLOWED_ORIGINS` | `http://localhost:8000,http://127.0.0.1:8000` | CORS allow-list. |
+| `ALLOWED_ORIGINS` | `http://localhost:8010,http://127.0.0.1:8010` | CORS allow-list. |
+| `F1_APP_PORT` | `8010` | Host port for the Docker service; avoids a collision with other local apps on 8000. |
 | `DAMAGE_EVERY_N_FRAMES` | `10` | Damage-inference stride. |
 | `MAX_FRAMES` | `3000` | Per-video frame cap. |
-| `PIPELINE_VIDEO_CODEC` | `mp4v` | Output FourCC codec. |
+| `PIPELINE_VIDEO_CODEC` | `mp4v` | Temporary OpenCV FourCC; ffmpeg publishes the final H.264/AAC browser video. |
+| `PIPELINE_H264_CRF` | `23` | Final H.264 quality/size trade-off. |
+| `PIPELINE_SHOW_SPEED` | `false` | Enables optional per-car speed text in the annotated video. |
+| `TRACK_REASSOCIATION_MAX_GAP` | `30` | Short loss window eligible for conservative stable-ID recovery. |
+| `COLLISION_MIN_DAMAGE_OBSERVATIONS` | `2` | Damage confirmations required for a probable impact. |
 
 **Persistence:** `docker-compose.yml` bind-mounts `./outputs` and `./uploads`
 into the container, so generated result videos and uploads land on the host
@@ -79,8 +84,8 @@ and survive restarts.
 **Verify the running container:**
 
 ```bash
-curl http://localhost:8000/api/health          # {"status":"ok",...}
-curl http://localhost:8000/api/info             # device + model-load status
+curl http://localhost:8010/api/health          # {"status":"ok",...}
+curl http://localhost:8010/api/info             # device + model-load status
 ```
 
 Because the image is CPU-only, `/api/info` reports `"device":"cpu"` and video
@@ -113,30 +118,26 @@ py -3.11 tests\smoke_phase1.py
 Run the app:
 
 ```powershell
-py -3.11 -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+py -3.11 -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8010
 ```
 
 Open:
 
-* `http://127.0.0.1:8000/`
-* `http://127.0.0.1:8000/page/damage`
-* `http://127.0.0.1:8000/page/pipeline`
-* `http://127.0.0.1:8000/docs`
+* `http://127.0.0.1:8010/`
+* `http://127.0.0.1:8010/page/damage`
+* `http://127.0.0.1:8010/page/pipeline`
+* `http://127.0.0.1:8010/docs`
 
 ## Runtime Model Paths
 
-The active code does not use only the `models/` directory. Current paths are:
+All active runtime model artifacts are loaded from `models/` and SHA-256
+verified before deserialization:
 
 | Model | Path Used by Code | Current Workspace Status |
 | ----- | ----------------- | ------------------------ |
-| Car detector/tracker | `yolo_model_robflow/runs/detect/train/weights/best.pt` | Present. |
-| Damage detector | `models/best_carDD.pt` | Present. |
+| Car detector/tracker | `models/best_f1_detect.pt` | Present and hash-pinned in `app/config.py`. |
+| Damage detector | `models/best_carDD.pt` | Present and hash-pinned in `app/config.py`. |
 | Team classifier | `models/f1_team_classifier.pkl` | Present and hash-pinned in `app/config.py`. |
-
-Additional model files present but not used by current code:
-
-* `models/best_f1_detect.pt`
-* `models/best_carDD.pt`
 
 ## Required Directories
 
@@ -158,8 +159,8 @@ Those parent directories must exist before startup.
 
 Default allowed origins:
 
-* `http://localhost:8000`
-* `http://127.0.0.1:8000`
+* `http://localhost:8010`
+* `http://127.0.0.1:8010`
 
 Override for deployment:
 

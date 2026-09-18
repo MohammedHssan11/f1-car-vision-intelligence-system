@@ -84,6 +84,7 @@ def get_car_model():
         from ultralytics import YOLO
 
         _require_file(CAR_MODEL_PATH, "Car detector model")
+        verify_model_integrity(CAR_MODEL_PATH)
         return YOLO(str(CAR_MODEL_PATH))
 
     return _load_once("car_detector", _build)
@@ -96,6 +97,7 @@ def get_damage_model():
         from ultralytics import YOLO
 
         _require_file(DAMAGE_MODEL_PATH, "Damage detector model")
+        verify_model_integrity(DAMAGE_MODEL_PATH)
         return YOLO(str(DAMAGE_MODEL_PATH))
 
     return _load_once("damage_detector", _build)
@@ -131,9 +133,8 @@ def get_team_model():
             )
         _require_file(TEAM_MODEL_PATH, "Team classifier model")
 
-        # team_model_path is a pickle (FastAI export); verify its hash before
-        # deserializing since load_learner() executes arbitrary code embedded
-        # in a tampered pickle.
+        # The FastAI export is a pickle; verify its hash before deserializing
+        # because load_learner() can execute code embedded in a swapped file.
         verify_model_integrity(TEAM_MODEL_PATH)
 
         if sys.platform.startswith("win"):

@@ -1,12 +1,15 @@
 def detect_overtakes(cars, frame_idx,
                      min_gap=150,
-                     cooldown=40):
+                     cooldown=40,
+                     active_max_age=5):
 
     events = []
 
     active = [
         c for c in cars.values()
         if len(c.speed_history) > 5
+        and c.last_seen is not None
+        and frame_idx - c.last_seen <= active_max_age
     ]
 
     # sort by progress (front first)

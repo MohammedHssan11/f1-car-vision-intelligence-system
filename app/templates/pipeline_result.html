@@ -108,10 +108,10 @@
 
         /* Video Replay Theater */
         .video-container {
-            max-width: 1000px;
+            max-width: 980px;
             margin: 0 auto;
             background: #000;
-            padding: 10px;
+            padding: 14px;
             border: 1px solid rgba(255,255,255,0.1);
             position: relative;
             box-shadow: 0 30px 60px rgba(0,0,0,0.8);
@@ -130,9 +130,35 @@
         }
 
         video {
-            width: 100%;
             display: block;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: min(76vh, 820px);
+            margin: 0 auto;
             border: 1px solid #222;
+            background: #000;
+        }
+
+        .video-frame {
+            min-height: 240px;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 50% 30%, rgba(0, 210, 190, 0.08), transparent 50%),
+                #000;
+        }
+
+        .video-status {
+            min-height: 1.3em;
+            margin: 12px 0 0;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            letter-spacing: 0.8px;
+        }
+
+        .video-status.is-error {
+            color: #ffb800;
         }
 
         .damage-panel {
@@ -228,6 +254,17 @@
             color: #001014;
         }
 
+        @media (max-width: 640px) {
+            body { padding: 26px 12px; }
+            .header-banner { margin-bottom: 34px; padding: 0 16px; }
+            h1 { font-size: 1.55rem; letter-spacing: 2px; }
+            .report-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .stat-card { padding: 15px 10px; }
+            .stat-card span { font-size: 2.4rem; }
+            .video-container { padding: 9px; }
+            video { max-height: 68vh; }
+        }
+
     </style>
 </head>
 <body>
@@ -240,6 +277,8 @@
     <div class="report-meta">
         {% if source_label %}<div>SOURCE // {{ source_label }}</div>{% endif %}
         {% if output_video_name %}<div>OUTPUT // {{ output_video_name }}</div>{% endif %}
+        {% if summary.output_codec %}<div>PLAYBACK // {{ summary.output_codec | upper }} · STREAM-OPTIMIZED</div>{% endif %}
+        <div>EVENTS // HEURISTIC VIDEO ANALYSIS; VERIFY AGAINST RACE FOOTAGE</div>
     </div>
     
     <div class="report-grid">
@@ -249,18 +288,23 @@
         </div>
 
         <div class="stat-card" style="--accent-color: var(--warning-gold);">
-            <strong>INCIDENTS (CRASH)</strong>
+            <strong>PROBABLE IMPACTS</strong>
             <span>{{ summary.total_collisions }}</span>
         </div>
 
         <div class="stat-card" style="--accent-color: var(--mercedes-cyan);">
-            <strong>MANEUVERS (OVERTAKE)</strong>
+            <strong>HEURISTIC OVERTAKES</strong>
             <span style="color: var(--mercedes-cyan);">{{ summary.total_overtakes }}</span>
         </div>
 
         <div class="stat-card" style="--accent-color: #a78bfa;">
             <strong>FRAMES PROCESSED</strong>
             <span>{{ summary.frames_processed }}</span>
+        </div>
+
+        <div class="stat-card" style="--accent-color: #22c55e;">
+            <strong>STABLE-ID RECOVERIES</strong>
+            <span>{{ summary.track_reassociations | default(0) }}</span>
         </div>
     </div>
 
@@ -282,10 +326,13 @@
 
     <div class="video-container">
         <div class="video-label">SESSION REPLAY_MODE</div>
-        <video controls>
-            <source src="{{ video_path }}" type="video/mp4">
-            Uplink failed. Local video driver not supported.
-        </video>
+        <div class="video-frame">
+            <video id="session-replay" controls playsinline preload="metadata">
+                <source src="{{ video_path }}" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+        </div>
+        <p id="video-status" class="video-status" aria-live="polite">Loading replay metadata…</p>
     </div>
 
     <div class="output-links">
@@ -298,6 +345,18 @@
     <div class="action-footer">
         <a href="/page/pipeline" class="btn-back">RE-INITIALIZE PIPELINE</a>
     </div>
+
+    <script>
+        const replay = document.getElementById("session-replay");
+        const replayStatus = document.getElementById("video-status");
+        replay.addEventListener("loadedmetadata", () => {
+            replayStatus.textContent = `Replay ready · ${Math.round(replay.duration)} seconds · H.264 MP4`;
+        });
+        replay.addEventListener("error", () => {
+            replayStatus.textContent = "Replay could not load here. Use Download Video to inspect the MP4.";
+            replayStatus.classList.add("is-error");
+        });
+    </script>
 
 </body>
 </html>

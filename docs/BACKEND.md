@@ -106,7 +106,7 @@ Adds `src/` to `sys.path`, imports `run_full_pipeline` from `src/pipeline.py`, a
 ### `src/pipeline.py`
 
 * **Purpose:** Runs the full video analysis loop.
-* **Active Car Model Path:** `yolo_model_robflow/runs/detect/train/weights/best.pt`.
+* **Active Car Model Path:** `models/best_f1_detect.pt`, verified by SHA-256 before loading.
 * **Active Damage Model Path:** `models/best_carDD.pt`.
 * **Active Team Model Path:** `models/f1_team_classifier.pkl`, verified by hash before `load_learner()`.
 * **Core Constants (all env-overridable):**
@@ -115,7 +115,7 @@ Adds `src/` to `sys.path`, imports `run_full_pipeline` from `src/pipeline.py`, a
   * `TEAM_CONF_TH = 0.6` (`PIPELINE_TEAM_CONF_TH`)
   * `DAMAGE_EVERY_N_FRAMES = 10` (`DAMAGE_EVERY_N_FRAMES`)
   * `MAX_FRAMES = 3000` (`MAX_FRAMES`)
-  * output codec `mp4v` (`PIPELINE_VIDEO_CODEC`)
+  * temporary OpenCV codec `mp4v` (`PIPELINE_VIDEO_CODEC`), then published H.264/AAC with ffmpeg
 * **Model access:** models are pulled from the lazy cache in `src/model_loader.py` on the first video request, not at import; see "Performance" below.
 * **Tracker Config:** `tracker/bytetrack.yaml`, configured by `app.config.TRACKER_CONFIG_PATH`.
 * **Progress Callback:** `run_full_pipeline(..., progress_callback=...)` can report processed frame count and total frame count to a caller.
@@ -130,7 +130,7 @@ Adds `src/` to `sys.path`, imports `run_full_pipeline` from `src/pipeline.py`, a
 * **Batched damage inference.** Per stride frame, all eligible car crops are run through the damage model in a single batched forward pass instead of one YOLO call per car, collapsing N GPU launches into one.
 * **Timing logs.** `[MODELS]` lines report per-model load time; `[TIMING]` lines report "models ready" time, and processed frames / fps / output size / codec at the end of each run. `src/detection.py` logs per-image damage-inference latency.
 * **Tuned demo defaults.** `DAMAGE_EVERY_N_FRAMES` 5 -> 10 and `MAX_FRAMES` 5000 -> 3000 trade a little damage-tracking granularity for a snappier local demo; both revert via env vars.
-* **Output encoding.** Default `mp4v` in an `.mp4` container is bundled with OpenCV and browser-playable (~15 MB for the 597-frame sample clip). `avc1` (H.264) yields smaller files but needs a system H.264 build, so it is opt-in via `PIPELINE_VIDEO_CODEC` to avoid silently writing an empty file.
+* **Output encoding.** OpenCV writes an intermediate `mp4v` file, then ffmpeg publishes H.264/AAC with `yuv420p` pixel format and `+faststart` metadata. This is HTML5-browser compatible, retains source audio when present, and is verified in the pipeline summary as `h264/aac`.
 
 ## Component: State & Event Layer (`tracking_memory/`)
 

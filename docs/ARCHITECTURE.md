@@ -34,7 +34,7 @@ graph TD
     end
 
     subgraph Models ["Local Models"]
-        N["YOLO car model: yolo_model_robflow/.../best.pt"]
+        N["YOLO car model: models/best_f1_detect.pt"]
         O["YOLO damage model: models/best_carDD.pt"]
         P["FastAI team model: models/f1_team_classifier.pkl"]
     end
